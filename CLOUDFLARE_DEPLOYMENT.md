@@ -48,82 +48,88 @@ This Flask application has been converted to Cloudflare Pages + Functions for se
 npm install
 ```
 
-### Step 2: Configure Cloudflare Account
+### Step 2: Install Wrangler CLI (if not already installed)
+```bash
+npm install -g wrangler
+```
 
-Get your Account ID and API Token:
-
-1. Go to https://dash.cloudflare.com/
-2. In the sidebar, click on your profile
-3. Go to "API Tokens" or "API Keys"
-4. Create a new API token or copy your Account ID
-
-### Step 3: Login to Wrangler
+### Step 3: Authenticate with Cloudflare
 ```bash
 wrangler login
 ```
 
-This will open a browser window to authenticate.
+This will open a browser window to authenticate with your Cloudflare account.
 
-### Step 4: Update `wrangler.toml`
+### Step 4: Find Your Account ID
 
-Replace placeholders:
-```toml
-account_id = "YOUR_ACCOUNT_ID"  # From Step 2
+1. Go to https://dash.cloudflare.com/
+2. Scroll to the bottom-right corner
+3. Copy your **Account ID**
+4. Update `wrangler.toml`:
+   ```toml
+   account_id = "YOUR_ACCOUNT_ID"
+   ```
+
+### Step 5: Create Cloudflare Pages Project
+```bash
+wrangler pages project create nvidia-ai-webapp
 ```
 
-If using a custom domain:
-```toml
-[env.production]
-routes = [
-  { pattern = "yourdomain.com/*", zone_id = "YOUR_ZONE_ID" }
-]
-```
+This creates your project and returns the URL: `https://nvidia-ai-webapp.pages.dev`
 
-### Step 5: Set Environment Variables
-
-Create a `.env` file or set them in Cloudflare Workers:
+### Step 6: Set Environment Variables (Secrets)
 
 ```bash
-wrangler secret put NVIDIA_API_KEY
+# Set NVIDIA API Key
+wrangler secret put NVIDIA_API_KEY --env production
 # Paste your NVIDIA API key when prompted
 
-wrangler secret put NVIDIA_API_URL
-# https://integrate.api.nvidia.com/v1/chat/completions
-
-wrangler secret put NVIDIA_MODEL
+# Set NVIDIA Model (optional)
+wrangler secret put NVIDIA_MODEL --env production
 # nvidia/ising-calibration-1-35b-a3b
+
+# Set NVIDIA API URL (optional)
+wrangler secret put NVIDIA_API_URL --env production
+# https://integrate.api.nvidia.com/v1/chat/completions
 ```
 
-Or edit `wrangler.toml` with env variables:
-
-```toml
-[env.production]
-vars = { NVIDIA_MODEL = "nvidia/ising-calibration-1-35b-a3b" }
-
-[env.production.secrets]
-NVIDIA_API_KEY = "your-key-here"
-```
-
-### Step 6: Test Locally
+### Step 7: Test Locally (Recommended)
 
 ```bash
 npm run dev
 ```
 
-Visit http://localhost:8787 to test.
+Visit `http://localhost:8787` to test the application locally.
 
-### Step 7: Deploy to Cloudflare
+### Step 8: Deploy to Cloudflare
 
 ```bash
 npm run deploy
 ```
 
-Or manually:
-```bash
-wrangler pages deploy public
-```
+Your app will be live at: `https://nvidia-ai-webapp.pages.dev`
 
-Your app will be live at: `https://<project-name>.pages.dev`
+---
+
+## File Structure
+
+```
+NVIDIA_AI_WebApp/
+├── public/                    # Static files (served by Pages)
+│   ├── index.html            # Main app
+│   ├── rejection-analysis.html
+│   ├── style.css
+│   └── _routes.json          # Route configuration
+├── functions/                # Backend functions
+│   └── api/
+│       ├── analyze.js        # /api/analyze endpoint
+│       └── rejection-analysis.js  # /api/rejection-analysis endpoint
+├── wrangler.toml             # Cloudflare Pages config
+├── package.json              # Dependencies
+├── CLOUDFLARE_DEPLOYMENT.md  # This file
+├── QUICKSTART.md             # Quick start guide
+└── README.md                 # Project overview
+```
 
 ## API Endpoints
 
@@ -172,23 +178,6 @@ Response:
   "topReasons": [["reason", 25], ...],
   "aiAnalysis": "AI analysis text..."
 }
-```
-
-## File Structure
-
-```
-NVIDIA_AI_WebApp/
-├── public/                    # Static files served by Pages
-│   ├── index.html            # Main app
-│   ├── rejection-analysis.html
-│   └── style.css
-├── functions/                # Backend functions
-│   └── api/
-│       ├── analyze.js        # Text analysis endpoint
-│       └── rejection-analysis.js  # Rejection analysis endpoint
-├── wrangler.toml             # Cloudflare config
-├── package.json              # Node.js config
-└── README.md                 # This file
 ```
 
 ## Differences from Original Flask App
