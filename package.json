@@ -1,0 +1,15 @@
+{
+  "name": "nvidia-ai-webapp-cloudflare",
+  "version": "1.0.0",
+  "description": "NVIDIA AI WebApp converted for Cloudflare Pages + Functions",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev public",
+    "deploy": "wrangler pages deploy public",
+    "build": "npm run build:pages"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

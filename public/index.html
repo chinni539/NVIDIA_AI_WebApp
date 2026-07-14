@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NVIDIA AI Content Generator - Cloudflare</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 800px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .nav-links {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .nav-links a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #764ba2;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        textarea {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            min-height: 150px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .result-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .result-box h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .ai-response {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .error {
+            background: #fee;
+            padding: 15px;
+            border-radius: 5px;
+            color: #c33;
+            margin: 20px 0;
+        }
+
+        .success {
+            background: #efe;
+            padding: 15px;
+            border-radius: 5px;
+            color: #3c3;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🤖 AI Content Generator</h1>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/rejection-analysis.html">Analyze Rejections</a>
+    </div>
+
+    <form id="analyzeForm">
+        <textarea 
+            id="promptInput"
+            placeholder="Enter your prompt here..."
+            required></textarea>
+
+        <button type="submit">Generate Content</button>
+    </form>
+
+    <div id="loading" class="loading" style="display: none;">
+        Processing your request...
+    </div>
+
+    <div id="result" class="result-box" style="display: none;">
+        <h2>Generated Content</h2>
+        <div id="aiResponse" class="ai-response"></div>
+    </div>
+
+    <div id="error" class="error" style="display: none;"></div>
+</div>
+
+<script>
+    document.getElementById('analyzeForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const prompt = document.getElementById('promptInput').value;
+        const loading = document.getElementById('loading');
+        const result = document.getElementById('result');
+        const error = document.getElementById('error');
+
+        loading.style.display = 'block';
+        result.style.display = 'none';
+        error.style.display = 'none';
+
+        try {
+            const response = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to analyze');
+            }
+
+            document.getElementById('aiResponse').innerHTML = data.content.replace(/\n/g, '<br>');
+            result.style.display = 'block';
+
+        } catch (err) {
+            error.textContent = '❌ ' + err.message;
+            error.style.display = 'block';
+        } finally {
+            loading.style.display = 'none';
+        }
+    });
+</script>
+
+</body>
+</html>

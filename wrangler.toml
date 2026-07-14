@@ -1,0 +1,20 @@
+name = "nvidia-ai-webapp"
+type = "javascript"
+account_id = "YOUR_ACCOUNT_ID"
+workers_dev = true
+main = "src/index.js"
+compatibility_date = "2024-12-01"
+
+[env.production]
+name = "nvidia-ai-webapp-prod"
+routes = [
+  { pattern = "example.com/*", zone_id = "YOUR_ZONE_ID" }
+]
+
+[build]
+command = "npm install"
+cwd = "./"
+watch_paths = ["src/**/*.js"]
+
+[build.upload]
+format = "service-worker"
