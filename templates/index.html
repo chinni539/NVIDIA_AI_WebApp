@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>NVIDIA AI Content Generator</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>AI Content Generator</h1>
+    <div style="margin-top:20px;">
+        <a href="/rejection-analysis">
+            Analyze Rejections Dashboard
+        </a>
+    </div>
+
+    <form method="POST">
+
+        <textarea
+            name="prompt"
+            placeholder="Enter your prompt here..."
+            required></textarea>
+
+        <button type="submit">
+            Generate Content
+        </button>
+
+    </form>
+
+    {% if result %}
+
+    <div class="result-box">
+
+        <h2>Generated Content</h2>
+
+        <div class="ai-response">
+            {{ result|safe }}
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

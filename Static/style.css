@@ -1,0 +1,131 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+.container {
+    width: 80%;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #ccc;
+}
+
+h1 {
+    text-align: center;
+}
+
+textarea {
+    width: 100%;
+    height: 220px;
+    padding: 10px;
+    font-size: 16px;
+    resize: vertical;
+}
+
+button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.result-box {
+    margin-top: 30px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    background: #fafafa;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.ai-response {
+    line-height: 1.8;
+    font-size: 16px;
+    color: #333;
+}
+
+.ai-response h1,
+.ai-response h2,
+.ai-response h3,
+.ai-response h4 {
+    color: #1e3a8a;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.ai-response p {
+    margin-bottom: 15px;
+}
+
+.ai-response ul,
+.ai-response ol {
+    margin-left: 25px;
+    margin-bottom: 15px;
+}
+
+.ai-response li {
+    margin-bottom: 8px;
+}
+
+.ai-response strong {
+    color: #000;
+}
+
+.ai-response code {
+    background-color: #f4f4f4;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+.ai-response pre {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.ai-response blockquote {
+    border-left: 4px solid #ccc;
+    padding-left: 15px;
+    color: #666;
+    margin: 15px 0;
+}
+
+table {
+
+    width:100%;
+    border-collapse: collapse;
+    margin-bottom:40px;
+}
+
+table th {
+
+    background:#1e3a8a;
+    color:white;
+    padding:10px;
+}
+
+table td {
+
+    border:1px solid #ddd;
+    padding:10px;
+}
+
+table tr:nth-child(even) {
+
+    background:#f7f7f7;
+}
+
+.ai-response {
+
+    padding:20px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    background:#fafafa;
+}
